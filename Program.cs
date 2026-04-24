@@ -8,7 +8,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<RssImportService>();
-
+builder.Services.AddHostedService<RssBackgroundImportService>();
+builder.Services.AddScoped<OpenAiEmbeddingService>();
+builder.Services.AddHostedService<EmbeddingBackgroundService>();
+builder.Services.AddScoped<SemanticSearchService>();
+builder.Services.AddScoped<OpenAiChatService>();
 
 var app = builder.Build();
 

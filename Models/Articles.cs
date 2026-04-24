@@ -26,6 +26,10 @@ namespace TechnologyWatchBlog.Models
 
         public string? ImageUrl { get; set; }
 
+        public string? Embedding { get; set; }
+
+        public DateTime? EmbeddedAt { get; set; }
+
         public DateTime? PublishedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
