@@ -1,0 +1,46 @@
+@model TechnologyWatchBlog.Models.Article
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container py-5">
+    <div class="mb-4">
+        <a asp-controller="Articles" asp-action="Index" class="btn btn-outline-secondary btn-sm">
+            ← Retour aux articles
+        </a>
+    </div>
+
+    <h1 class="mb-3">@Model.Title</h1>
+
+    <p class="text-muted">
+        @(Model.PublishedAt?.ToLocalTime().ToString("dd/MM/yyyy") ?? "Date inconnue")
+        · @Model.SourceName
+        @if (!string.IsNullOrWhiteSpace(Model.Author))
+{
+            <p class="text-muted mb-1">Auteur : @Model.Author</p>
+}
+
+        @if (!string.IsNullOrWhiteSpace(Model.Tags))
+{
+            <p class="text-muted">Tags : @Model.Tags</p>
+}
+                </p>
+
+    @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+    {
+        <img src="@Model.ImageUrl" class="img-fluid rounded mb-4" alt="@Model.Title" />
+    }
+
+    <div class="mb-4">
+        <div class="article-content">
+            @Html.Raw(Model.Content)
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="@Model.SourceUrl" target="_blank" class="btn btn-primary">
+            Voir l'article original
+        </a>
+    </div>
+</div>
