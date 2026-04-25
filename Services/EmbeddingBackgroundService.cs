@@ -38,6 +38,7 @@ namespace TechnologyWatchBlog.Services
                 {
                     _logger.LogError(ex, "Error during embedding generation.");
                 }
+                await Task.Delay(TimeSpan.FromHours(6), stoppingToken);
             }
         }
     }
