@@ -9,10 +9,12 @@ namespace TechnologyWatchBlog.Services
     {
         private readonly AppDbContext _context;
         private readonly EmbeddingClient _client;
+        private readonly ILogger<EmbeddingBackgroundService> _logger;
 
-        public OpenAiEmbeddingService(IConfiguration config, AppDbContext context)
+        public OpenAiEmbeddingService(IConfiguration config, AppDbContext context,ILogger<EmbeddingBackgroundService> logger)
         {
             _context = context;
+            _logger = logger;
 
             var apiKey = config["OpenAI:ApiKey"];
             _client = new EmbeddingClient("text-embedding-3-small", apiKey);
@@ -51,7 +53,7 @@ namespace TechnologyWatchBlog.Services
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Embedding error: {ex.Message}");
+                    _logger.LogError(ex, "Embedding error");
                 }
             }
 

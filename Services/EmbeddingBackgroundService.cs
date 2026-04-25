@@ -21,7 +21,6 @@ namespace TechnologyWatchBlog.Services
         
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(TimeSpan.FromHours(6), stoppingToken);
         
                 try
                 {

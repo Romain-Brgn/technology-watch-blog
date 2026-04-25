@@ -9,10 +9,12 @@ namespace TechnologyWatchBlog.Services
     public class RssImportService
     {
         private readonly AppDbContext _context;
+        private readonly ILogger<RssImportService> _logger;
 
-        public RssImportService(AppDbContext context)
+        public RssImportService(AppDbContext context, ILogger<RssImportService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<int> ImportMultipleFeedsAsync()
@@ -48,14 +50,14 @@ namespace TechnologyWatchBlog.Services
             {
                 try
                 {
-                    Console.WriteLine($"Importing: {feedUrl}");
+                    _logger.LogInformation("Importing: {Url}", feedUrl);
                     int count = await ImportFromUrlAsync(feedUrl);
                     totalImported += count;
-                    Console.WriteLine($"Imported {count} article(s)");
+                    _logger.LogInformation("Imported {Count} article(s) from {Url}", count, feedUrl);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error with {feedUrl}: {ex.Message}");
+                    _logger.LogError(ex, "Error importing from {Url}", feedUrl);
                 }
             }
 
@@ -65,6 +67,7 @@ namespace TechnologyWatchBlog.Services
         public async Task<int> ImportFromUrlAsync(string feedUrl)
         {
             using var httpClient = new HttpClient();
+            httpClient.Timeout = TimeSpan.FromSeconds(30);
 
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
