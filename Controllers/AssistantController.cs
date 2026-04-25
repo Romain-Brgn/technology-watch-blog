@@ -22,7 +22,7 @@ namespace TechnologyWatchBlog.Controllers
             if (string.IsNullOrWhiteSpace(question))
                 return BadRequest("Question manquante.");
 
-            var articles = await _semanticSearchService.SearchAsync(question, 5);
+            var articles = await _semanticSearchService.SearchAsync(question, 3);
 
             var answer = await _chatService.AskAsync(question, articles);
 

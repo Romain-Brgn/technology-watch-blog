@@ -10,7 +10,7 @@ namespace TechnologyWatchBlog.Services
 
         public OpenAiChatService(IConfiguration config)
         {
-            var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+            var apiKey = config["OpenAI:ApiKey"];
             _client = new ChatClient("gpt-4o-mini", apiKey);
         }
 

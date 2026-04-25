@@ -1,15 +1,25 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using TechnologyWatchBlog.Models;
+using TechnologyWatchBlog.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace TechnologyWatchBlog.Controllers;
 
 public class HomeController : Controller
 {
-    public IActionResult Index()
+
+    private readonly AppDbContext _context;
+
+    public HomeController(AppDbContext context)
     {
-        return View();
+        _context = context;
     }
+    public async Task<IActionResult> Index()
+        {
+            ViewBag.ArticleCount = await _context.Articles.CountAsync();
+            return View();
+        }
 
     public IActionResult Privacy()
     {

@@ -18,18 +18,20 @@ namespace TechnologyWatchBlog.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("RSS background import service started.");
-
+        
             while (!stoppingToken.IsCancellationRequested)
             {
+                await Task.Delay(TimeSpan.FromHours(6), stoppingToken);
+        
                 try
                 {
                     using var scope = _serviceProvider.CreateScope();
-
+        
                     var rssImportService = scope.ServiceProvider
                         .GetRequiredService<RssImportService>();
-
+        
                     int imported = await rssImportService.ImportMultipleFeedsAsync();
-
+        
                     _logger.LogInformation(
                         "RSS background import completed. {Count} article(s) imported.",
                         imported
@@ -39,8 +41,6 @@ namespace TechnologyWatchBlog.Services
                 {
                     _logger.LogError(ex, "Error during RSS background import.");
                 }
-
-                await Task.Delay(TimeSpan.FromHours(6), stoppingToken);
             }
         }
     }

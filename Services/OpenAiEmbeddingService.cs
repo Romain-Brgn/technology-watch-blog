@@ -14,7 +14,7 @@ namespace TechnologyWatchBlog.Services
         {
             _context = context;
 
-            var apiKey = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
+            var apiKey = config["OpenAI:ApiKey"];
             _client = new EmbeddingClient("text-embedding-3-small", apiKey);
         }
 
